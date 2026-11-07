@@ -1,0 +1,27 @@
+Alex Rivera
+Omaha, NE | alex.rivera@example.com | github.com/example
+
+SUMMARY
+US Marine Corps logistics veteran (MOS 0621/0627) moving into software and data
+engineering. Five years of supply-chain operations under GCSS-MC, plus an
+administrative officer internship at a federal agency. Comfortable in Python,
+SQL and Linux; building retrieval systems with FastAPI, Postgres and pgvector.
+
+EXPERIENCE
+Logistics Analyst, Marine Corps (2020-2025)
+- Managed inventory and requisition tracking in GCSS-MC for a 400-person unit
+- Built Excel and Access reporting that cut a monthly reconciliation from 3 days
+  to 6 hours
+- Coordinated freight movement across three warehouses; audited shortages
+
+Administrative Officer Intern, Department of Workforce and Economic Agency (2024)
+- Wrote SOPs for records handling and trained four staff on the new process
+- Maintained a tracking spreadsheet for 1,200 case files
+
+TECHNICAL SKILLS
+Python, SQL, Postgres, FastAPI, Docker, Linux, git, Excel, Power BI
+Currently: pgvector, embeddings, retrieval evaluation
+
+EDUCATION
+B.S. Business Administration, University of Nebraska Omaha
+Certifications in progress: generative AI, data science in practice

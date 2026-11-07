@@ -3,7 +3,7 @@ PIP     := .venv/bin/pip
 COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
-.PHONY: help venv up down logs psql init ingest query stats test lint fmt refresh clean
+.PHONY: help venv up down logs psql init ingest query stats api api-install api-logs test lint fmt refresh clean
 
 help:  ## show this help
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | sed 's/:.*## /  - /'
@@ -39,6 +39,18 @@ query:  ## semantic search: make query q="python etl pipeline"
 
 stats:  ## corpus counts: postings, embedded, sources
 	$(PY) -m jobfit.cli stats
+
+api:  ## run the API in the foreground (dev): http://localhost:8000/docs
+	$(PY) -m uvicorn jobfit.api:app --host 0.0.0.0 --port 8000 --reload
+
+api-install:  ## install + start the API as a user service (survives logout)
+	cp deploy/jobfit-api.service ~/.config/systemd/user/jobfit-api.service
+	systemctl --user daemon-reload
+	systemctl --user enable --now jobfit-api.service
+	@sleep 2 && systemctl --user --no-pager status jobfit-api.service | head -12
+
+api-logs:  ## follow the API service log
+	journalctl --user -u jobfit-api.service -f
 
 test:  ## run the test suite
 	$(PY) -m pytest -q

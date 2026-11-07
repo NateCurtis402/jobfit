@@ -27,6 +27,7 @@ class Settings:
     ollama_url: str
     embed_model: str
     embed_dim: int
+    agent_model: str
     snapshot_dir: Path
 
     @classmethod
@@ -39,5 +40,6 @@ class Settings:
             ollama_url=os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/"),
             embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
             embed_dim=int(os.environ.get("EMBED_DIM", "768")),
+            agent_model=os.environ.get("AGENT_MODEL", "llama3.1:8b"),
             snapshot_dir=Path(os.environ.get("SNAPSHOT_DIR", REPO_ROOT / "data" / "snapshot")),
         )

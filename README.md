@@ -13,12 +13,36 @@ eval harness in M3 that measures whether the search actually works.
 
 | Milestone | Scope | State |
 |---|---|---|
-| M1 | ingest postings → embed → queryable index | **in progress** |
-| M2 | FastAPI `/search` + `/match`, function-calling agent, OpenAPI docs | not started |
+| M1 | ingest postings → embed → queryable index | **done** — 111 postings, 111 embedded |
+| M2 | FastAPI `/search` + `/match`, function-calling agent, OpenAPI docs | **done** — live on the LAN |
 | M3 | eval harness: 50 hand-labeled query→result pairs, hit-rate in CI | not started |
 
 No metrics are published yet on purpose. M3 produces them; until then the README
 stays empty of numbers rather than full of invented ones.
+
+## It runs as a service
+
+```bash
+make api-install     # systemd user unit, survives logout, restarts on failure
+make api-logs
+```
+
+Live on the LAN: **http://192.168.50.208:8000/docs** (the clickable API page).
+
+```bash
+curl -s "http://192.168.50.208:8000/health"
+curl -s "http://192.168.50.208:8000/search?q=python%20data%20pipeline&k=3"
+curl -s -X POST http://192.168.50.208:8000/match \
+  -H 'Content-Type: application/json' \
+  -d '{"resume_text":"Logistics veteran. Python, SQL, Postgres, Docker.","k":5}'
+curl -s -X POST http://192.168.50.208:8000/ask \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"Are there any AI or LLM engineer roles here?"}'
+```
+
+`/match` takes `rank_by: "semantic" | "hybrid"`. Semantic-only is the baseline;
+hybrid adds a small bonus per skill the resume and the posting share. Both are
+kept because M3 measures which one actually wins instead of guessing.
 
 ## Architecture
 
