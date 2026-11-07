@@ -3,7 +3,7 @@ PIP     := .venv/bin/pip
 COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
-.PHONY: help venv up down logs psql init ingest query stats gap eval label api api-install api-logs test lint fmt refresh clean
+.PHONY: help venv up down logs psql init ingest query stats gap eval label watch api api-install api-logs test lint fmt refresh clean
 
 help:  ## show this help
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | sed 's/:.*## /  - /'
@@ -60,6 +60,9 @@ eval:  ## score retrieval against hand labels (hit@5 / hit@10 / MRR per mode)
 
 label:  ## label query -> relevant postings, interactively
 	$(PY) -m jobfit.cli label --queries evals/queries.txt --labels $(or $(labels),evals/labels.json)
+
+watch:  ## preview the daily digest (marks nothing as sent)
+	$(PY) -m jobfit.cli watch --dry-run
 
 test:  ## run the test suite
 	$(PY) -m pytest -q

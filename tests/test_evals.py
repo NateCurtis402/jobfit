@@ -37,3 +37,17 @@ def test_summarise_aggregates_correctly():
 
 def test_summarise_empty_does_not_divide_by_zero():
     assert summarise([])["hit@5"] == 0.0
+
+
+def test_profile_tsquery_builds_or_query():
+    from jobfit.watch import profile_tsquery
+
+    q = profile_tsquery("junior python backend, sql and postgres")
+    assert " | " in q
+    assert "python" in q and "postgres" in q
+
+
+def test_profile_tsquery_empty_when_no_known_terms():
+    from jobfit.watch import profile_tsquery
+
+    assert profile_tsquery("anything at all please") == ""

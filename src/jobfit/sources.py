@@ -117,7 +117,7 @@ def from_remotive(rec: dict) -> Posting:
     return Posting(
         source="remotive",
         external_id=str(rec["id"]),
-        title=(rec.get("title") or "").strip(),
+        title=_repair_mojibake(rec.get("title") or "").strip(),
         company=(rec.get("company_name") or "").strip(),
         location=(rec.get("candidate_required_location") or "").strip(),
         url=(rec.get("url") or "").strip(),
@@ -138,7 +138,7 @@ def from_remoteok(rec: dict) -> Posting:
     return Posting(
         source="remoteok",
         external_id=str(rec.get("id")),
-        title=(rec.get("position") or "").strip(),
+        title=_repair_mojibake(rec.get("position") or "").strip(),
         company=(rec.get("company") or "").strip(),
         location=(rec.get("location") or "").strip(),
         url=(rec.get("apply_url") or rec.get("url") or "").strip(),
@@ -161,7 +161,7 @@ def from_adzuna(rec: dict) -> Posting:
     return Posting(
         source="adzuna",
         external_id=str(rec.get("id") or ""),
-        title=(rec.get("title") or "").strip(),
+        title=_repair_mojibake(rec.get("title") or "").strip(),
         company=company.strip(),
         location=location.strip(),
         url=(rec.get("redirect_url") or "").strip(),

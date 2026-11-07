@@ -13,6 +13,7 @@ from .db import connect, ensure_schema
 from .embed import EmbeddingError, OllamaEmbedder
 from .evals import DEFAULT_LABELS, evaluate, load_labels
 from .gap import gap_report
+from .watch import DEFAULT_PROFILE, find_matches, render_digest
 from .ingest import (
     clear_embeddings,
     count_rows,
@@ -160,6 +161,24 @@ def cmd_eval(args) -> int:
     return 0
 
 
+def cmd_watch(args) -> int:
+    _, conn, embedder = _setup(require_embedder=True)
+    rows = find_matches(
+        conn,
+        embedder,
+        profile=args.profile,
+        min_score=args.min_score,
+        limit=args.limit,
+        days=args.days,
+        dry_run=args.dry_run,
+        exclude_senior=not args.include_senior,
+    )
+    if args.dry_run:
+        print(f"(dry run — nothing marked as sent) {len(rows)} match(es)\n")
+    print(render_digest(rows, args.profile))
+    return 0
+
+
 def cmd_stats(args) -> int:
     settings = Settings.load()
     conn = connect(settings.database_url)
@@ -206,6 +225,17 @@ def main(argv: list[str] | None = None) -> int:
     p_label.add_argument("--queries", type=str, default="evals/queries.txt")
     p_label.add_argument("--labels", type=str, default=str(DEFAULT_LABELS))
     p_label.set_defaults(func=cmd_label)
+
+    p_watch = sub.add_parser("watch", help="new postings matching a profile (daily digest)")
+    p_watch.add_argument("--profile", default=DEFAULT_PROFILE)
+    p_watch.add_argument("--min-score", type=float, default=0.62, dest="min_score")
+    p_watch.add_argument("--limit", type=int, default=8)
+    p_watch.add_argument("--days", type=int, default=45)
+    p_watch.add_argument("--dry-run", action="store_true", dest="dry_run")
+    p_watch.add_argument(
+        "--include-senior", action="store_true", help="do not hide senior/lead/director titles"
+    )
+    p_watch.set_defaults(func=cmd_watch)
 
     p_stats = sub.add_parser("stats", help="corpus counts by source")
     p_stats.set_defaults(func=cmd_stats)

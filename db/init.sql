@@ -41,3 +41,11 @@ ALTER TABLE postings
 
 CREATE INDEX IF NOT EXISTS postings_search_vector_idx
     ON postings USING gin (search_vector);
+
+
+-- Watcher state: a posting is sent once, never twice. Left as a real table
+-- rather than a file so it survives restarts and can be queried.
+CREATE TABLE IF NOT EXISTS watcher_seen (
+    posting_id BIGINT PRIMARY KEY REFERENCES postings(id) ON DELETE CASCADE,
+    sent_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
