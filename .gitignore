@@ -8,3 +8,6 @@ data/raw/
 *.egg-info/
 build/
 dist/
+
+# personal: resumes and anything with contact details never enter git
+data/private/
