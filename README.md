@@ -1,5 +1,7 @@
 # JobFit
 
+[![ci](https://github.com/NateCurtis402/jobfit/actions/workflows/ci.yml/badge.svg)](https://github.com/NateCurtis402/jobfit/actions/workflows/ci.yml)
+
 **What this is, and why:** an Omaha-area job search you can query in plain English.
 Job boards give you a list sorted by date. JobFit gives you a ranked list sorted by
 *how close a posting is to the work you actually want* — semantic search over an
