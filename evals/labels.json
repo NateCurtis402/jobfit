@@ -10,6 +10,34 @@
    ],
    "labeled_by": "nero",
    "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q002",
+   "query": "entry level software developer",
+   "target_ids": [
+    116,
+    851,
+    153,
+    854
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q003",
+   "query": "data engineer python sql",
+   "target_ids": [
+    288,
+    10,
+    211,
+    227,
+    46,
+    234,
+    249,
+    205
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
   }
  ]
 }

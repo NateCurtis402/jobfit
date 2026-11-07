@@ -52,10 +52,31 @@ Rule: the number and the commit are the proof. "Familiar with X" is not evidence
   of structured `tool_calls`. Added a coercion path instead of switching models
   and hoping.
 
-## Homelab (supporting evidence of ops ability, not a resume bullet yet)
-- Diagnosed broken container name-resolution across 13 Docker containers
-  (embedded resolver 127.0.0.11 timing out; direct upstream queries fine) and
-  fixed it at the daemon level with a DNS override.
+## Evals — first real numbers, not yet publishable (7 Nov 2026)
+- 3 hand-labeled queries (Nero), semantic mode: **hit@5 = 1.000, hit@10 = 1.000,
+  MRR = 0.750**; lexical 0.667 / 0.500; hybrid 0.667 / 0.722.
+- **n=3. This is not a metric yet** — 3 queries cannot distinguish a good system
+  from a lucky one. It becomes a published number at 20+ hand labels.
+- What the harness already proved: adding the model's task prefixes
+  (`search_query:` / `search_document:`) took dense retrieval from hit@5 = 0.000
+  to 1.000 on the same queries. That is a measured improvement, not a vibe.
+
+## Homelab (verified facts, 7 Nov 2026)
+- Root filesystem and Docker engine installed **2026-01-20**; **14 containers
+  running** as of 2026-11-07 → ~9.5 months of continuous self-hosted operation.
+- Diagnosed broken container name-resolution across every container (embedded
+  resolver 127.0.0.11 timing out; direct upstream queries fine) and fixed it at
+  the daemon level with a DNS override.
+- Deployed a FastAPI application as a systemd user service with a non-destructive
+  ExecStartPre, restart-on-failure, and dependency ordering.
+- Managed cross-user access on a shared repository with POSIX ACLs, including
+  diagnosing that a directory ACL is useless without traverse permission on its
+  parent — after breaking my own access to the tree.
+
+## Daily watcher (7 Nov 2026, commit 9df1db7)
+- Built a scheduled job that refreshes live job feeds, embeds new postings, and
+  reports only postings never sent before, tracked in a Postgres table so a job
+  is delivered exactly once. Runs with no model call, so it costs $0 per day.
 
 ## Pending — do not claim until true
 - Eval harness numbers (hit@5, MRR, judge-vs-human agreement) — M3.

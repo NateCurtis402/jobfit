@@ -27,6 +27,32 @@ Why phrased this way:
   software candidate pool and are the reason an ops-heavy employer picks you over
   a bootcamp graduate.
 
+## Personal infrastructure (homelab) — for the ops/DevOps angle
+
+Label this section **"Personal Infrastructure (homelab)"** and never let it read as
+employment. It is self-directed work on real hardware, and the specifics are what
+make it count: 14 services, nine months of uptime, named failures diagnosed.
+
+```
+PERSONAL INFRASTRUCTURE (self-hosted, Jan 2026 - present)
+- Operate an Ubuntu server running 14 Docker services (media, DNS filtering,
+  VPN, secrets management, home automation) with restart policies and
+  health checks; ~9 months continuous operation.
+- Diagnosed a host-wide container DNS failure by isolating Docker's embedded
+  resolver against direct upstream queries, then fixed it at the daemon level.
+- Deploy applications as systemd user services with dependency ordering and
+  automatic restart; manage cross-user file access with POSIX ACLs.
+- Run local LLM inference on a 12 GB GPU (Ollama) serving embedding and
+  tool-calling models to an application API at zero inference cost.
+- Maintain nightly backups with restic and verify them with restore drills.
+```
+
+Why this is worth real space on the page: it is the only place a hiring manager
+sees Linux and Docker **run by you, unattended, for months**, with failures you
+found and fixed. "Familiar with Linux" is a claim; "14 containers, nine months,
+here is the DNS bug I chased down" is evidence. Do not inflate the months — the
+server's install date says January, and anyone technical will ask.
+
 ## Bullets (use 2, keep the third for the tech-only version)
 
 - Built **JobFit**, a retrieval service that indexes 111 job postings and ranks
