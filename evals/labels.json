@@ -1,0 +1,15 @@
+{
+ "labels": [
+  {
+   "id": "q001",
+   "query": "python backend engineer",
+   "target_ids": [
+    46,
+    107,
+    10
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  }
+ ]
+}

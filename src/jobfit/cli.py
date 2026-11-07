@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import argparse
 import sys
+import time
+
+import psycopg
 
 from .config import Settings
 from .db import connect, ensure_schema
@@ -94,7 +97,25 @@ def cmd_label(args) -> int:
         return 0
     print(f"{len(todo)} of {len(queries)} queries to label. y = relevant, n = not, q = stop and save.\n")
     for query in todo:
-        hits = run_search(conn, embedder, query, k=10)
+        # The database container can be recreated under us (compose config
+        # change, host restart). Postgres drops every live connection when that
+        # happens, so reconnect instead of losing the labeling session.
+        for attempt in (1, 2):
+            try:
+                hits = run_search(conn, embedder, query, k=10)
+                break
+            except psycopg.OperationalError:
+                if attempt == 2:
+                    print(
+                        "\ndatabase went away twice — answers up to the last completed "
+                        f"query are saved in {path}. Rerun to resume."
+                    )
+                    return 3
+                print("\ndatabase connection dropped; reconnecting and retrying this query...")
+                time.sleep(2)
+                fresh = Settings.load()
+                conn = connect(fresh.database_url)
+                ensure_schema(conn)
         print(f"\n=== {query} ===")
         for i, h in enumerate(hits, 1):
             print(f"  {i:>2}. [{h['score']:.3f}] {h['title'][:56]} — {h['company'][:26]} ({h['location'][:24]})")
