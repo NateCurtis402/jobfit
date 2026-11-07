@@ -13,7 +13,6 @@ from .db import connect, ensure_schema
 from .embed import EmbeddingError, OllamaEmbedder
 from .evals import DEFAULT_LABELS, evaluate, load_labels
 from .gap import gap_report
-from .watch import DEFAULT_PROFILE, find_matches, render_digest
 from .ingest import (
     clear_embeddings,
     count_rows,
@@ -22,6 +21,7 @@ from .ingest import (
     upsert_postings,
 )
 from .search import search as run_search
+from .watch import DEFAULT_PROFILE, find_matches, render_digest
 
 
 def _setup(require_embedder: bool):

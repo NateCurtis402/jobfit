@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Re-fetch live boards into data/snapshot/. Network only; no database needed.
 
 Both boards are free and keyless. Their terms require attribution, which lives in

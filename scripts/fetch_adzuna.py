@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Fetch Omaha-area postings from Adzuna into a dated snapshot.
 
 Adzuna needs app_id + app_key in .env (free key from developer.adzuna.com).

@@ -101,6 +101,9 @@ retrieval strategies on identical labels.
 | hybrid (reciprocal rank fusion) | 0.880 | 0.980 | 0.672 |
 | lexical (Postgres full-text) | 0.320 | 0.340 | 0.248 |
 
+Reproduce locally with `make eval` (needs Postgres + the local embedding model;
+CI cannot run a model, so it guards lint, tests and label integrity instead).
+
 Reading it: semantic returns a correct posting in the top 5 for 49 of 50 queries,
 and its worst case still lands at rank 10. MRR 0.735 means the first correct
 result is typically in the top two, not merely somewhere on page one.
