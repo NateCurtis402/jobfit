@@ -25,7 +25,7 @@ deliverable is enrollment filed, not coursework finished.
 
 - Resume PDF → structured profile; `/match` scores postings against it
 - Tool-calling agent that decides search vs. compare
-- **Nero's job:** hand-label 50 query → expected-result pairs (AI formats, never labels)
+- **Nate's job:** hand-label 50 query → expected-result pairs (AI formats, never labels)
 - Fri 20 Nov: enroll in GLE #1
 
 ## Week 3 — 21–27 Nov: M3, metrics, publishing

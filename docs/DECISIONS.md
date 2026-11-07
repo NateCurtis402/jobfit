@@ -1,7 +1,7 @@
 # Decisions
 
 Product and design calls, with the reason. These are the answers to "why did you
-build it that way" in an interview — written by Nero, not generated after the fact.
+build it that way" in an interview — written by Nate, not generated after the fact.
 
 ## 1. Duplicate detection uses the job text, not the board's job id
 The same job appears on several boards with a different id each time. Hashing
@@ -11,7 +11,7 @@ the evals. Cost: two genuinely different postings with identical title, company
 and opening paragraph collapse into one. Accepted.
 
 ## 2. Resume scoring keeps the best-matching section, not the average
-A resume is not one topic. Nero's is mostly Marine logistics with a Python/SQL
+A resume is not one topic. Nate's is mostly Marine logistics with a Python/SQL
 skills block near the end. Averaging the whole document makes every posting look
 "mostly logistics", which buries exactly the matches worth seeing. Taking the
 maximum over sections lets a strong skills match win on its own. Cost: a posting
@@ -19,7 +19,7 @@ can rank high on one section while the rest of the resume is irrelevant — whic
 is what `matched_terms` is shown for, so the ranking is explainable.
 
 ## 3. Skills matter more than longevity — do not hard-filter on experience
-Open question Nero raised: a job that matches the skills but asks for more years
+Open question Nate raised: a job that matches the skills but asks for more years
 than he has should not be thrown out. Many "5+ years" lines are wishlists, and a
 logistics veteran with shipped Python work is a legitimate candidate for them.
 Decision: never filter a posting out of the results for seniority. Show it, and
@@ -43,7 +43,7 @@ require a key Nero signs up for himself. Anywhere results are shown, the
 coverage gap is stated.
 
 ## 7. First real-resume finding: keywords the tool cannot see
-Nero's current CV is written for a DoD operations role. It never says Python,
+Nate's current CV is written for a DoD operations role. It never says Python,
 SQL, Docker, Linux, git or API — so the matcher correctly ranks it against
 operations and office-support postings, not engineering ones. That is a resume
 problem, not a ranking problem, and it is the most useful thing the tool has
