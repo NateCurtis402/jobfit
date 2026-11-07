@@ -8,6 +8,7 @@ import sys
 from .config import Settings
 from .db import connect, ensure_schema
 from .embed import EmbeddingError, OllamaEmbedder
+from .gap import gap_report
 from .ingest import count_rows, embed_missing, load_snapshot_dir, upsert_postings
 from .search import search as run_search
 
@@ -46,6 +47,24 @@ def cmd_query(args) -> int:
     return 0
 
 
+def cmd_gap(args) -> int:
+    from pathlib import Path
+
+    from .resume import parse, pdf_to_text
+
+    _, conn, embedder = _setup(require_embedder=True)
+    path = Path(args.resume)
+    text = pdf_to_text(path.read_bytes()) if path.suffix.lower() == ".pdf" else path.read_text()
+    resume = parse(text)
+    report = gap_report(conn, embedder, args.target, resume.keywords, k=args.k)
+    print(f"target: {report['target']}  ({report['postings_analyzed']} postings analysed)")
+    print(f"resume already covers: {', '.join(report['have']) or '(none)'}")
+    print("\nmissing, most-demanded first:")
+    for m in report["missing"][:15]:
+        print(f"  {m['pct']:>5.1f}%  {m['term']:<18} (e.g. {m['example_posting'][:44]})")
+    return 0
+
+
 def cmd_stats(args) -> int:
     settings = Settings.load()
     conn = connect(settings.database_url)
@@ -72,6 +91,12 @@ def main(argv: list[str] | None = None) -> int:
     p_query.add_argument("text")
     p_query.add_argument("-k", type=int, default=5)
     p_query.set_defaults(func=cmd_query)
+
+    p_gap = sub.add_parser("gap", help="skills the goal role wants that the resume lacks")
+    p_gap.add_argument("target")
+    p_gap.add_argument("--resume", required=True, help="path to a .pdf or .txt resume")
+    p_gap.add_argument("-k", type=int, default=15)
+    p_gap.set_defaults(func=cmd_gap)
 
     p_stats = sub.add_parser("stats", help="corpus counts by source")
     p_stats.set_defaults(func=cmd_stats)

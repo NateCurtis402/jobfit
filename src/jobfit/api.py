@@ -17,6 +17,7 @@ from pydantic import BaseModel, Field
 from . import agent as agent_mod
 from .config import Settings
 from .embed import EmbeddingError, OllamaEmbedder
+from .gap import gap_report
 from .ingest import count_rows
 from .resume import Resume, ResumeParseError, parse, pdf_to_text
 from .scoring import score_resume
@@ -97,6 +98,12 @@ class MatchResponse(BaseModel):
     results: list[MatchHit]
 
 
+class GapBody(BaseModel):
+    target: str = Field(min_length=2, description="Goal role, e.g. 'AI Engineer'")
+    resume_text: str = Field(min_length=1)
+    k: int = Field(15, ge=3, le=50)
+
+
 class AskBody(BaseModel):
     question: str = Field(min_length=3)
     resume_text: str | None = None
@@ -160,6 +167,16 @@ async def match_upload(file: Annotated[UploadFile, File()], k: int = 10):
     else:
         text = data.decode("utf-8", errors="replace")
     return match(MatchBody(resume_text=text, k=k))
+
+
+@app.post("/gap", summary="What the goal role wants that your resume does not say")
+def gap(body: GapBody):
+    try:
+        resume = parse(body.resume_text)
+    except ResumeParseError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    with _pool().connection() as c:
+        return gap_report(c, embedder, body.target, resume.keywords, k=body.k)
 
 
 @app.post("/ask", summary="Ask in plain English; the local model picks the tool")

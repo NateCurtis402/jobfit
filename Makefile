@@ -37,6 +37,9 @@ refresh:  ## re-fetch live boards into data/snapshot/ (network)
 query:  ## semantic search: make query q="python etl pipeline"
 	$(PY) -m jobfit.cli query "$(q)" -k $(or $(k),5)
 
+gap:  ## skills a goal role wants that your resume lacks: make gap target="AI Engineer" resume=path.pdf
+	$(PY) -m jobfit.cli gap "$(target)" --resume "$(resume)" -k $(or $(k),15)
+
 stats:  ## corpus counts: postings, embedded, sources
 	$(PY) -m jobfit.cli stats
 
