@@ -134,7 +134,7 @@ def cmd_label(args) -> int:
                 "id": f"q{len(payload['labels']) + 1:03d}",
                 "query": query,
                 "target_ids": keep,
-                "labeled_by": "nero",
+                "labeled_by": "nate",
                 "labeled_at": dt.date.today().isoformat(),
             }
         )

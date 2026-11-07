@@ -44,6 +44,6 @@ deliverable is enrollment filed, not coursework finished.
 ## Standing rules
 
 - One repo. No new side projects until M3 has numbers.
-- Nero owns: schema, labels, tests, README numbers, architecture. AI owns implementation.
+- Nate owns: schema, labels, tests, README numbers, architecture. AI owns implementation.
 - Quiz before merge; a line he cannot explain does not ship.
 - No metric in the README that was not produced by a run in CI.

@@ -39,7 +39,7 @@ snapshot keeps `make ingest` reproducible.
 ## 6. Honest corpus limits
 The two keyless feeds are remote-only. Nothing in this repo claims Omaha
 coverage yet — that needs Adzuna (or USAJobs for federal roles), both of which
-require a key Nero signs up for himself. Anywhere results are shown, the
+require a key Nate signs up for himself. Anywhere results are shown, the
 coverage gap is stated.
 
 ## 7. First real-resume finding: keywords the tool cannot see
@@ -55,7 +55,7 @@ bonus needs weighting by how specific a term is — M3 decides, with labels.
 ## 8. Next feature: gap report
 For each of the top N postings, list the concrete skills the posting asks for
 that the resume never mentions. Same data as `matched_terms`, inverted. This is
-the actionable output — it tells Nero what line to add to the resume, instead of
+the actionable output — it tells Nate what line to add to the resume, instead of
 just ranking jobs.
 
 ## 9. Label anchoring is a known flaw, and it is written down
