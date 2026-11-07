@@ -86,6 +86,7 @@ Rule: the number and the commit are the proof. "Familiar with X" is not evidence
 
 ## Pending — do not claim until true
 - Eval harness numbers (hit@5, MRR, judge-vs-human agreement) — M3.
-- "CI green" — the workflow file exists, but the repo is not public yet, so it
-  has never run. Do not write "CI passing" until a badge shows it.
+- ~~"CI/CD pipeline"~~ — **earned 2026-11-07**: the repo is public at
+  github.com/NateCurtis402/jobfit and CI run #2 is green (install → ruff → 45
+  tests, including validation of the committed eval labels).
 - Omaha-area coverage — the corpus is remote-only until an Adzuna key is added.
