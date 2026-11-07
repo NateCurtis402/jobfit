@@ -41,3 +41,19 @@ The two keyless feeds are remote-only. Nothing in this repo claims Omaha
 coverage yet — that needs Adzuna (or USAJobs for federal roles), both of which
 require a key Nero signs up for himself. Anywhere results are shown, the
 coverage gap is stated.
+
+## 7. First real-resume finding: keywords the tool cannot see
+Nero's current CV is written for a DoD operations role. It never says Python,
+SQL, Docker, Linux, git or API — so the matcher correctly ranks it against
+operations and office-support postings, not engineering ones. That is a resume
+problem, not a ranking problem, and it is the most useful thing the tool has
+reported so far.
+Follow-on: `rank_by="hybrid"` put "Remote Office Assistant" at #2 for this
+resume, because the shared terms were generic (excel, reporting). The per-skill
+bonus needs weighting by how specific a term is — M3 decides, with labels.
+
+## 8. Next feature: gap report
+For each of the top N postings, list the concrete skills the posting asks for
+that the resume never mentions. Same data as `matched_terms`, inverted. This is
+the actionable output — it tells Nero what line to add to the resume, instead of
+just ranking jobs.

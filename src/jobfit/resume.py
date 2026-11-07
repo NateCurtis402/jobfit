@@ -9,8 +9,10 @@ import re
 from dataclasses import dataclass
 
 SECTION_RE = re.compile(
-    r"^(experience|work experience|employment|education|skills|projects|"
-    r"certifications|certificates|summary|professional summary|profile)\b",
+    r"^(professional experience|work experience|work history|relevant experience|"
+    r"experience|employment|military service|professional summary|summary|profile|"
+    r"education|training|certifications?|certificates|core competencies|"
+    r"technical skills|skills|projects|leadership|qualifications)\b",
     re.IGNORECASE,
 )
 BULLET_RE = re.compile(r"^\s*[•\-\*\u2022]\s*")
