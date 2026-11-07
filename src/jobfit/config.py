@@ -28,6 +28,8 @@ class Settings:
     embed_model: str
     embed_dim: int
     agent_model: str
+    adzuna_app_id: str
+    adzuna_app_key: str
     snapshot_dir: Path
 
     @classmethod
@@ -41,5 +43,7 @@ class Settings:
             embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
             embed_dim=int(os.environ.get("EMBED_DIM", "768")),
             agent_model=os.environ.get("AGENT_MODEL", "llama3.1:8b"),
+            adzuna_app_id=os.environ.get("ADZUNA_APP_ID", ""),
+            adzuna_app_key=os.environ.get("ADZUNA_APP_KEY", ""),
             snapshot_dir=Path(os.environ.get("SNAPSHOT_DIR", REPO_ROOT / "data" / "snapshot")),
         )
