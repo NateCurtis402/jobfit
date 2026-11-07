@@ -91,7 +91,7 @@ def embed_missing(conn: psycopg.Connection, embedder, batch_size: int = 16) -> i
             rows = cur.fetchall()
         if not rows:
             return done
-        vectors = embedder.embed([r["embedding_text"] for r in rows])
+        vectors = embedder.embed([r["embedding_text"] for r in rows], kind="document")
         with conn.cursor() as cur:
             for row, vec in zip(rows, vectors, strict=True):
                 cur.execute(
@@ -100,6 +100,15 @@ def embed_missing(conn: psycopg.Connection, embedder, batch_size: int = 16) -> i
                 )
         conn.commit()
         done += len(rows)
+
+
+def clear_embeddings(conn: psycopg.Connection) -> int:
+    """Null every vector so the next embed pass rebuilds them (e.g. after a model change)."""
+    with conn.cursor() as cur:
+        cur.execute("UPDATE postings SET embedding = NULL, embedded_at = NULL")
+        n = cur.rowcount
+    conn.commit()
+    return n
 
 
 def count_rows(conn: psycopg.Connection) -> tuple[int, int]:

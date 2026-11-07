@@ -29,3 +29,15 @@ CREATE INDEX IF NOT EXISTS postings_embedding_hnsw
     ON postings USING hnsw (embedding vector_cosine_ops);
 
 CREATE INDEX IF NOT EXISTS postings_posted_at_idx ON postings (posted_at DESC);
+
+-- Lexical half of hybrid retrieval. Dense vectors miss exact terms ("LLM",
+-- "Kubernetes"); full-text search nails them and is free in Postgres. The
+-- generated column stays in sync with the row automatically.
+ALTER TABLE postings
+    ADD COLUMN IF NOT EXISTS search_vector tsvector
+    GENERATED ALWAYS AS (
+        to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, ''))
+    ) STORED;
+
+CREATE INDEX IF NOT EXISTS postings_search_vector_idx
+    ON postings USING gin (search_vector);

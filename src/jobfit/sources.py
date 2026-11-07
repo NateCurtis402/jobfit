@@ -149,7 +149,34 @@ def from_remoteok(rec: dict) -> Posting:
     )
 
 
-ADAPTERS = {"remotive": from_remotive, "remoteok": from_remoteok}
+def from_adzuna(rec: dict) -> Posting:
+    """Adzuna nests company and location, and sends a snippet rather than full text."""
+    company = (rec.get("company") or {}).get("display_name") or ""
+    location = (rec.get("location") or {}).get("display_name") or ""
+    category = (rec.get("category") or {}).get("tag") or ""
+    salary_min, salary_max = rec.get("salary_min"), rec.get("salary_max")
+    salary_raw = ""
+    if salary_min and salary_max:
+        salary_raw = f"${salary_min:,.0f}-${salary_max:,.0f}"
+    return Posting(
+        source="adzuna",
+        external_id=str(rec.get("id") or ""),
+        title=(rec.get("title") or "").strip(),
+        company=company.strip(),
+        location=location.strip(),
+        url=(rec.get("redirect_url") or "").strip(),
+        description=html_to_text(rec.get("description") or ""),
+        tags=(category,) if category else (),
+        posted_at=_parse_date(rec.get("created")),
+        salary_raw=salary_raw,
+    )
+
+
+ADAPTERS = {
+    "remotive": from_remotive,
+    "remoteok": from_remoteok,
+    "adzuna": from_adzuna,
+}
 
 
 def parse_snapshot(payload: dict) -> list[Posting]:

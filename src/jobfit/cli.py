@@ -8,8 +8,15 @@ import sys
 from .config import Settings
 from .db import connect, ensure_schema
 from .embed import EmbeddingError, OllamaEmbedder
+from .evals import DEFAULT_LABELS, evaluate, load_labels
 from .gap import gap_report
-from .ingest import count_rows, embed_missing, load_snapshot_dir, upsert_postings
+from .ingest import (
+    clear_embeddings,
+    count_rows,
+    embed_missing,
+    load_snapshot_dir,
+    upsert_postings,
+)
 from .search import search as run_search
 
 
@@ -25,6 +32,9 @@ def _setup(require_embedder: bool):
 
 def cmd_ingest(args) -> int:
     settings, conn, embedder = _setup(require_embedder=not args.no_embed)
+    if getattr(args, "reembed", False):
+        n = clear_embeddings(conn)
+        print(f"cleared {n} embeddings (re-embedding everything)")
     postings, report = load_snapshot_dir(settings.snapshot_dir)
     report.inserted, report.already_present = upsert_postings(conn, postings)
     if not args.no_embed:
@@ -37,7 +47,7 @@ def cmd_ingest(args) -> int:
 
 def cmd_query(args) -> int:
     _, conn, embedder = _setup(require_embedder=True)
-    hits = run_search(conn, embedder, args.text, k=args.k)
+    hits = run_search(conn, embedder, args.text, k=args.k, mode=args.mode)
     if not hits:
         print("no rows matched — run `make ingest` first")
         return 1
@@ -65,6 +75,70 @@ def cmd_gap(args) -> int:
     return 0
 
 
+def cmd_label(args) -> int:
+    """Interactive labeling: show the top hits for a query, record which are relevant."""
+    import datetime as dt
+    import json
+    from pathlib import Path
+
+    _, conn, embedder = _setup(require_embedder=True)
+    queries = [q.strip() for q in Path(args.queries).read_text().splitlines() if q.strip()]
+    path = Path(args.labels)
+    payload = {"labels": []}
+    if path.exists():
+        payload = json.loads(path.read_text())
+    done = {entry["query"] for entry in payload["labels"]}
+    todo = [q for q in queries if q not in done]
+    if not todo:
+        print(f"all {len(queries)} queries already labeled in {path}")
+        return 0
+    print(f"{len(todo)} of {len(queries)} queries to label. y = relevant, n = not, q = stop and save.\n")
+    for query in todo:
+        hits = run_search(conn, embedder, query, k=10)
+        print(f"\n=== {query} ===")
+        for i, h in enumerate(hits, 1):
+            print(f"  {i:>2}. [{h['score']:.3f}] {h['title'][:56]} — {h['company'][:26]} ({h['location'][:24]})")
+        keep = []
+        for i, h in enumerate(hits, 1):
+            ans = input(f"  keep #{i}? [y/N/q] ").strip().lower()
+            if ans == "q":
+                path.write_text(json.dumps(payload, indent=1))
+                print(f"\nsaved {len(payload['labels'])} labels -> {path}")
+                return 0
+            if ans in ("y", "yes"):
+                keep.append(int(h["id"]))
+        payload["labels"].append(
+            {
+                "id": f"q{len(payload['labels']) + 1:03d}",
+                "query": query,
+                "target_ids": keep,
+                "labeled_by": "nero",
+                "labeled_at": dt.date.today().isoformat(),
+            }
+        )
+        path.write_text(json.dumps(payload, indent=1))
+    print(f"\nsaved {len(payload['labels'])} labels -> {path}")
+    return 0
+
+
+def cmd_eval(args) -> int:
+    from .evals import render
+
+    _, conn, embedder = _setup(require_embedder=True)
+    labels = load_labels(args.labels)
+    if not labels:
+        print(f"no labeled queries in {args.labels} — run: make label")
+        return 1
+    result = evaluate(conn, embedder, labels)
+    print(render(result))
+    best_mode = max(result["metrics"], key=lambda m: result["metrics"][m]["hit@5"])
+    hit5 = result["metrics"][best_mode]["hit@5"]
+    if args.min_hit5 and hit5 < args.min_hit5:
+        print(f"\nFAIL: best hit@5 {hit5:.3f} ({best_mode}) is below the floor {args.min_hit5:.3f}")
+        return 1
+    return 0
+
+
 def cmd_stats(args) -> int:
     settings = Settings.load()
     conn = connect(settings.database_url)
@@ -85,11 +159,15 @@ def main(argv: list[str] | None = None) -> int:
 
     p_ingest = sub.add_parser("ingest", help="load snapshot files and embed new rows")
     p_ingest.add_argument("--no-embed", action="store_true", help="insert only, skip embeddings")
+    p_ingest.add_argument(
+        "--reembed", action="store_true", help="rebuild every vector (after a model or prefix change)"
+    )
     p_ingest.set_defaults(func=cmd_ingest)
 
     p_query = sub.add_parser("query", help="semantic search over the index")
     p_query.add_argument("text")
     p_query.add_argument("-k", type=int, default=5)
+    p_query.add_argument("--mode", choices=["semantic", "lexical", "hybrid"], default="semantic")
     p_query.set_defaults(func=cmd_query)
 
     p_gap = sub.add_parser("gap", help="skills the goal role wants that the resume lacks")
@@ -97,6 +175,16 @@ def main(argv: list[str] | None = None) -> int:
     p_gap.add_argument("--resume", required=True, help="path to a .pdf or .txt resume")
     p_gap.add_argument("-k", type=int, default=15)
     p_gap.set_defaults(func=cmd_gap)
+
+    p_eval = sub.add_parser("eval", help="score retrieval against hand-labeled queries")
+    p_eval.add_argument("--labels", type=str, default=str(DEFAULT_LABELS))
+    p_eval.add_argument("--min-hit5", type=float, default=0.0, dest="min_hit5")
+    p_eval.set_defaults(func=cmd_eval)
+
+    p_label = sub.add_parser("label", help="label query -> relevant postings, interactively")
+    p_label.add_argument("--queries", type=str, default="evals/queries.txt")
+    p_label.add_argument("--labels", type=str, default=str(DEFAULT_LABELS))
+    p_label.set_defaults(func=cmd_label)
 
     p_stats = sub.add_parser("stats", help="corpus counts by source")
     p_stats.set_defaults(func=cmd_stats)

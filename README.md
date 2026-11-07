@@ -15,7 +15,7 @@ eval harness in M3 that measures whether the search actually works.
 |---|---|---|
 | M1 | ingest postings → embed → queryable index | **done** — 111 postings, 111 embedded |
 | M2 | FastAPI `/search` + `/match`, function-calling agent, OpenAPI docs | **done** — live on the LAN |
-| M3 | eval harness: 50 hand-labeled query→result pairs, hit-rate in CI | not started |
+| M3 | eval harness: 50 hand-labeled query→result pairs, hit-rate in CI | **harness built — labels pending** |
 
 No metrics are published yet on purpose. M3 produces them; until then the README
 stays empty of numbers rather than full of invented ones.
@@ -86,6 +86,19 @@ Requires: Docker, Python 3.11+, and Ollama with an embedding model:
 ```bash
 ollama pull nomic-embed-text
 ```
+
+## Retrieval modes
+
+`/search` and `jobfit query` take `mode=semantic|lexical|hybrid`:
+
+- **semantic** — pgvector cosine over local embeddings (finds paraphrases)
+- **lexical** — Postgres full-text rank (finds exact tokens: "LLM", "Kubernetes")
+- **hybrid** — reciprocal rank fusion of both
+
+Which one wins is a measurement, not an opinion: `make eval` reports hit@5, hit@10
+and MRR per mode once `evals/labels.json` has hand labels. Early smoke numbers
+exist but are not published here — the smoke labels were generated from titles, so
+they favour lexical search by construction.
 
 ## Data sources
 

@@ -4,6 +4,12 @@ from __future__ import annotations
 
 import httpx
 
+# nomic-embed-text is trained with task prefixes; without them query-document
+# retrieval degrades noticeably. Ollama applies none, so we add them ourselves.
+TASK_PREFIXES = {
+    "nomic-embed-text": {"query": "search_query: ", "document": "search_document: "},
+}
+
 
 class EmbeddingError(RuntimeError):
     pass
@@ -35,10 +41,21 @@ class OllamaEmbedder:
                 f"available: {', '.join(models) or '(none)'}"
             )
 
-    def embed(self, texts: list[str]) -> list[list[float]]:
-        """Batch embed. /api/embed takes a list and returns vectors in input order."""
+    def prefix(self, kind: str) -> str:
+        return TASK_PREFIXES.get(self.model.split(":")[0], {}).get(kind, "")
+
+    def embed(self, texts: list[str], kind: str = "document") -> list[list[float]]:
+        """Batch embed. /api/embed takes a list and returns vectors in input order.
+
+        kind selects the task prefix: "query" for searches, "document" for the
+        corpus. Embedding both sides with the same prefix (a common mistake)
+        measurably hurts retrieval.
+        """
         if not texts:
             return []
+        prefix = self.prefix(kind)
+        if prefix:
+            texts = [prefix + t for t in texts]
         with httpx.Client(timeout=self.timeout) as client:
             r = client.post(
                 f"{self.base_url}/api/embed",

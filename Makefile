@@ -3,7 +3,7 @@ PIP     := .venv/bin/pip
 COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
-.PHONY: help venv up down logs psql init ingest query stats api api-install api-logs test lint fmt refresh clean
+.PHONY: help venv up down logs psql init ingest query stats gap eval label api api-install api-logs test lint fmt refresh clean
 
 help:  ## show this help
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | sed 's/:.*## /  - /'
@@ -54,6 +54,12 @@ api-install:  ## install + start the API as a user service (survives logout)
 
 api-logs:  ## follow the API service log
 	journalctl --user -u jobfit-api.service -f
+
+eval:  ## score retrieval against hand labels (hit@5 / hit@10 / MRR per mode)
+	$(PY) -m jobfit.cli eval --labels $(or $(labels),evals/labels.json)
+
+label:  ## label query -> relevant postings, interactively
+	$(PY) -m jobfit.cli label --queries evals/queries.txt --labels $(or $(labels),evals/labels.json)
 
 test:  ## run the test suite
 	$(PY) -m pytest -q

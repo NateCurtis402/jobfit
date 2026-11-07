@@ -21,5 +21,11 @@ jobs:
         run: ruff check src tests
       - name: Test
         run: pytest -q
-      # M3 adds: evals (hit@5 against evals/labels.json), with the score printed
-      # to the job summary so a regression is visible in the PR.
+      - name: Retrieval evals
+        # Runs only once hand labels exist; a missing labels file is not a failure.
+        run: |
+          if python -c "import json,sys; d=json.load(open('evals/labels.json')); sys.exit(0 if d.get('labels') else 1)" 2>/dev/null; then
+            python -m jobfit.cli eval --labels evals/labels.json
+          else
+            echo "no hand labels yet — skipping evals (see evals/README.md)"
+          fi

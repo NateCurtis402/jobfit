@@ -130,9 +130,13 @@ def health():
 
 
 @app.get("/search", response_model=SearchResponse, summary="Semantic search over postings")
-def search(q: Annotated[str, Query(min_length=2)], k: Annotated[int, Query(ge=1, le=50)] = 5):
+def search(
+    q: Annotated[str, Query(min_length=2)],
+    k: Annotated[int, Query(ge=1, le=50)] = 5,
+    mode: Annotated[Literal["semantic", "lexical", "hybrid"], Query()] = "semantic",
+):
     with _pool().connection() as c:
-        rows = run_search(c, embedder, q, k=k)
+        rows = run_search(c, embedder, q, k=k, mode=mode)
     return SearchResponse(query=q, count=len(rows), results=[Hit(**r) for r in rows])
 
 
