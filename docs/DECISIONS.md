@@ -57,3 +57,15 @@ For each of the top N postings, list the concrete skills the posting asks for
 that the resume never mentions. Same data as `matched_terms`, inverted. This is
 the actionable output — it tells Nero what line to add to the resume, instead of
 just ranking jobs.
+
+## 9. Label anchoring is a known flaw, and it is written down
+The 50 labels were collected by reading the live system's top-10 results. That
+makes them anchored: a posting is more likely to be marked relevant if the system
+already put it near the top. Reported hit@5 = 0.980 therefore overstates real
+performance. Alternatives considered:
+- **blind labeling** (shuffled pool, scores hidden) — the fix, costs a second pass.
+- **a second labeler** on the same 50 queries, reporting agreement — catches the
+  cases where one person's "relevant" is another's "no", but does not remove
+  anchoring on its own.
+Published anyway, with the caveat attached, because an over-caveated honest number
+still beats a clean invented one.

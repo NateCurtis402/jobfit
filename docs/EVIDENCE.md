@@ -52,14 +52,20 @@ Rule: the number and the commit are the proof. "Familiar with X" is not evidence
   of structured `tool_calls`. Added a coercion path instead of switching models
   and hoping.
 
-## Evals — first real numbers, not yet publishable (7 Nov 2026)
-- 3 hand-labeled queries (Nero), semantic mode: **hit@5 = 1.000, hit@10 = 1.000,
-  MRR = 0.750**; lexical 0.667 / 0.500; hybrid 0.667 / 0.722.
-- **n=3. This is not a metric yet** — 3 queries cannot distinguish a good system
-  from a lucky one. It becomes a published number at 20+ hand labels.
-- What the harness already proved: adding the model's task prefixes
-  (`search_query:` / `search_document:`) took dense retrieval from hit@5 = 0.000
-  to 1.000 on the same queries. That is a measured improvement, not a vibe.
+## Evals — published numbers (7 Nov 2026, 50 hand labels)
+- **50 labeled queries, 352 postings, 217 postings marked relevant by hand.**
+- semantic: **hit@5 = 0.980, hit@10 = 1.000, MRR = 0.735**
+- hybrid (RRF): hit@5 = 0.880, hit@10 = 0.980, MRR = 0.672
+- lexical (full text): hit@5 = 0.320, hit@10 = 0.340, MRR = 0.248
+- One miss at k=5: "IT support specialist" ranked 10, because full-text matched
+  "SQL" in a mainframe DBA ad — the concrete example of why the modes are measured
+  side by side.
+- Before/after: adding the model's task prefixes (`search_query:` /
+  `search_document:`) moved dense retrieval from hit@5 = 0.000 to 1.000 on the
+  same queries. Same code, same data, one fix.
+- **Known bias, stated wherever the number is used:** labels were gathered from
+  the system's own top-10, so they are anchored toward its existing ranking. A
+  blind pass is next.
 
 ## Homelab (verified facts, 7 Nov 2026)
 - Root filesystem and Docker engine installed **2026-01-20**; **14 containers

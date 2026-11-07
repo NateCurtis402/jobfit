@@ -38,6 +38,584 @@
    ],
    "labeled_by": "nero",
    "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q004",
+   "query": "data analyst sql excel",
+   "target_ids": [
+    288,
+    287,
+    99,
+    328
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q005",
+   "query": "AI engineer LLM",
+   "target_ids": [
+    851,
+    134,
+    38
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q006",
+   "query": "machine learning engineer",
+   "target_ids": [
+    896,
+    46,
+    107,
+    10,
+    134,
+    122,
+    38,
+    226
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q007",
+   "query": "backend engineer fastapi",
+   "target_ids": [
+    143,
+    4,
+    104,
+    38,
+    33
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q008",
+   "query": "database administrator postgres",
+   "target_ids": [
+    214,
+    227,
+    205
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q009",
+   "query": "devops engineer docker kubernetes",
+   "target_ids": [
+    33,
+    34,
+    36,
+    8,
+    128
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q010",
+   "query": "cloud engineer AWS",
+   "target_ids": [
+    26,
+    296
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q011",
+   "query": "full stack developer javascript",
+   "target_ids": [
+    64,
+    164,
+    31,
+    7,
+    175,
+    71,
+    854,
+    103
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q012",
+   "query": "frontend developer react",
+   "target_ids": [
+    71,
+    164,
+    130,
+    31,
+    103
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q013",
+   "query": "qa automation engineer",
+   "target_ids": [
+    308,
+    309,
+    297,
+    46
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q014",
+   "query": "business intelligence analyst",
+   "target_ids": [
+    288,
+    14,
+    99,
+    245,
+    339,
+    328
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q015",
+   "query": "ETL developer",
+   "target_ids": [
+    854,
+    180
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q016",
+   "query": "data scientist python",
+   "target_ids": [
+    288,
+    10,
+    205,
+    122,
+    896,
+    234
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q017",
+   "query": "platform engineer",
+   "target_ids": [
+    8,
+    46,
+    107,
+    854,
+    26,
+    30
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q018",
+   "query": "site reliability engineer",
+   "target_ids": [
+    8,
+    325,
+    26,
+    30
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q019",
+   "query": "security analyst",
+   "target_ids": [
+    96
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q020",
+   "query": "systems administrator linux",
+   "target_ids": [
+    179,
+    223,
+    111
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q021",
+   "query": "IT support specialist",
+   "target_ids": [
+    339
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q022",
+   "query": "salesforce administrator",
+   "target_ids": [
+    14
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q023",
+   "query": "ERP systems analyst",
+   "target_ids": [
+    288,
+    14,
+    227,
+    34
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q024",
+   "query": "logistics data analyst",
+   "target_ids": [
+    5,
+    288,
+    14,
+    99
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q025",
+   "query": "supply chain analyst",
+   "target_ids": [
+    5,
+    14,
+    288,
+    339,
+    328
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q026",
+   "query": "inventory systems analyst",
+   "target_ids": [
+    14,
+    5,
+    339
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q027",
+   "query": "reporting analyst power bi",
+   "target_ids": [
+    339,
+    14,
+    328,
+    288,
+    245,
+    99
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q028",
+   "query": "technical project manager",
+   "target_ids": [
+    34,
+    81,
+    3
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q029",
+   "query": "solutions architect cloud",
+   "target_ids": [
+    143,
+    191,
+    235,
+    244,
+    242,
+    296,
+    271,
+    254
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q030",
+   "query": "mobile developer android",
+   "target_ids": [
+    31,
+    854,
+    814
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q031",
+   "query": "iOS developer swift",
+   "target_ids": [
+    31,
+    71,
+    851,
+    162
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q032",
+   "query": "api developer rest",
+   "target_ids": [
+    164,
+    143,
+    854,
+    174
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q033",
+   "query": "python automation scripting",
+   "target_ids": [
+    5,
+    308,
+    309,
+    288,
+    33,
+    297
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q034",
+   "query": "software engineer insurance industry",
+   "target_ids": [
+    149,
+    38,
+    46,
+    107,
+    90
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q035",
+   "query": "software engineer healthcare",
+   "target_ids": [
+    143,
+    46,
+    107,
+    90,
+    854
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q036",
+   "query": "software engineer defense contractor",
+   "target_ids": [
+    34,
+    46,
+    149,
+    38,
+    107,
+    33,
+    157,
+    179
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q037",
+   "query": "software engineer fintech",
+   "target_ids": [
+    149,
+    851,
+    46,
+    854,
+    33
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q038",
+   "query": "junior developer no experience required",
+   "target_ids": [
+    155,
+    121,
+    33,
+    140,
+    31
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q039",
+   "query": "graduate software engineer",
+   "target_ids": [
+    46,
+    107,
+    851,
+    854,
+    149,
+    168,
+    153
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q040",
+   "query": "internship software engineering",
+   "target_ids": [
+    256,
+    149,
+    46
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q041",
+   "query": "remote software engineer",
+   "target_ids": [
+    64,
+    46,
+    854,
+    107,
+    38
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q042",
+   "query": "remote python developer",
+   "target_ids": [
+    38,
+    4,
+    10,
+    46
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q043",
+   "query": "machine learning ops engineer",
+   "target_ids": [
+    38,
+    46,
+    235,
+    36,
+    122,
+    107,
+    26
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q044",
+   "query": "NLP engineer",
+   "target_ids": [
+    134,
+    38
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q045",
+   "query": "computer vision engineer",
+   "target_ids": [
+    46,
+    107
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q046",
+   "query": "data warehouse developer snowflake",
+   "target_ids": [
+    205,
+    234,
+    249
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q047",
+   "query": "snowflake dbt analyst",
+   "target_ids": [
+    211,
+    212,
+    288,
+    14,
+    99
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q048",
+   "query": "kubernetes platform administrator",
+   "target_ids": [
+    30,
+    271,
+    254,
+    214
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q049",
+   "query": "technical writer API documentation",
+   "target_ids": [
+    102
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
+  },
+  {
+   "id": "q050",
+   "query": "IT project coordinator",
+   "target_ids": [
+    81,
+    3,
+    11,
+    181
+   ],
+   "labeled_by": "nero",
+   "labeled_at": "2026-11-07"
   }
  ]
 }
