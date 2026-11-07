@@ -1,0 +1,22 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: jobfit-db
+    environment:
+      POSTGRES_USER: jobfit
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jobfit_dev_only}
+      POSTGRES_DB: jobfit
+    ports:
+      # bound to loopback only: the DB is not a LAN service, the API is
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - jobfit_pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobfit -d jobfit"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  jobfit_pgdata:
