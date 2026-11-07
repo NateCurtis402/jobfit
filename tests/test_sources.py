@@ -5,8 +5,8 @@ from __future__ import annotations
 from jobfit.sources import (
     Posting,
     dedupe,
-    from_remotive,
     from_remoteok,
+    from_remotive,
     html_to_text,
     parse_snapshot,
 )

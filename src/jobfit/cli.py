@@ -87,3 +87,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"database error: {exc}\nIs the db up? Try: make up", file=sys.stderr)
             return 3
         raise
+
+
+if __name__ == "__main__":  # `python -m jobfit.cli` and the `jobfit` script both work
+    raise SystemExit(main())
