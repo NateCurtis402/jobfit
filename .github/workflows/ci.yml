@@ -20,23 +20,6 @@ jobs:
       - name: Lint
         run: ruff check src tests
       - name: Test
+        # Includes tests/test_labels.py: the committed ground truth is validated
+        # on every push, so a malformed labels file cannot silently move the metric.
         run: pytest -q
-      - name: Check the eval label set
-        # The retrieval metric itself needs the local embedding model and a
-        # Postgres + pgvector instance, so it runs on the host (`make eval`)
-        # rather than on a free CI runner. What CI can guarantee for free is that
-        # the ground truth is still well formed: every label has an id, a query
-        # and at least one target, and no label ids collide.
-        run: |
-          python - <<'PY'
-          import json, sys
-          d = json.load(open("evals/labels.json"))
-          labels = d.get("labels", [])
-          assert labels, "labels.json has no labels"
-          ids = [l["id"] for l in labels]
-          assert len(ids) == len(set(ids)), "duplicate label ids"
-          bad = [l["id"] for l in labels if not l.get("query") or not l.get("target_ids")]
-          assert not bad, f"labels missing a query or targets: {bad}"
-          targets = sum(len(l["target_ids"]) for l in labels)
-          print(f"{len(labels)} labels, {targets} postings marked relevant — ok")
-          PY
